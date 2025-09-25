@@ -5,8 +5,131 @@ import Link from 'next/link';
 import Button from '@/components/airplanebtn';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useSettings } from '@/components/SettingsProvider';
 
 export default function LandingPage() {
+  const { language } = useSettings();
+  const L = language === 'hi'
+    ? {
+        heroTag: 'झारखंड की खोज करें',
+        heroTitlePart1: 'योजना बनाएं',
+        heroTitlePart2: 'अपनी यात्रा',
+        heroDesc:
+          'झारखंड के छिपे रत्नों को immersive अनुभवों, प्राचीन जनजातीय विरासत और मनमोहक प्राकृतिक आश्चर्यों के माध्यम से खोजें जो सहस्राब्दियों की कहानियाँ सुनाते हैं।',
+        exploreDestinations: 'गंतव्यों का अन्वेषण करें',
+        featuredDestinations: 'विशेष',
+        destinations: 'गंतव्य',
+        destsSub:
+          "झारखंड की प्राकृतिक और आध्यात्मिक विरासत को परिभाषित करने वाले सबसे आकर्षक स्थलों का अन्वेषण करें",
+        wildlifeSanctuary: 'वन्यजीव अभयारण्य',
+        betlaTitle: 'बेतला राष्ट्रीय उद्यान',
+        betlaDesc:
+          'शानदार रॉयल बंगाल टाइगर और विविध वन्यजीवों का घर, यह स्वच्छ अभयारण्य घने जंगलों और सुरम्य परिदृश्यों के बीच रोमांचक सफारी अनुभव प्रदान करता है।',
+        entryFee: 'प्रवेश शुल्क',
+        timings: 'समय',
+        bestTime: 'सबसे अच्छा समय',
+        bestTimeBetla: 'अक्टूबर - मार्च',
+        location: 'स्थान',
+        palamu: 'पलामू ज़िला',
+        jyotirlinga: 'पवित्र ज्योतिर्लिंग',
+        baidyanathTitle: 'बैद्यनाथ मंदिर',
+        baidyanathDesc:
+          'बारह पवित्र ज्योतिर्लिंगों में से एक, देवघर का यह प्राचीन मंदिर हर साल लाखों भक्तों को आकर्षित करता है। गहन आध्यात्मिकता और सदियों पुराने स्थापत्य वैभव का अनुभव करें।',
+        freeDarshan: 'नि:शुल्क दर्शन',
+        fourToNine: 'सुबह 4 बजे - रात 9 बजे',
+        bestTimeBaidya: 'जुलाई - अगस्त (सावन)',
+        deoghar: 'देवघर',
+        handicrafts: 'प्रामाणिक',
+        handicrafts2: 'हस्तशिल्प',
+        handiSub:
+          'कुशल जनजातीय कारीगरों द्वारा बनाए गए इन पारंपरिक कलाकृतियों के माध्यम से झारखंड की आत्मा को घर लेकर जाएँ',
+        dokra: 'ढोकरा कला',
+        dokraDesc:
+          'प्राचीन कांस्य ढलाई तकनीक, जो 4000+ वर्षों के इतिहास के साथ शानदार प्रतिमाएँ बनाती है',
+        sohrai: 'सोहराय पेंटिंग्स',
+        sohraiDesc:
+          'प्राकृतिक रंगों और ज्यामितीय पैटर्न के साथ फसल त्योहारों का उत्सव मनाने वाली पारंपरिक दीवार कला',
+        bamboo: 'बाँस शिल्प',
+        bambooDesc:
+          'पर्यावरण-अनुकूल टोकरी और सजावटी वस्तुएँ जो सतत जनजातीय जीवनशैली को दर्शाती हैं',
+        jewelry: 'जनजातीय आभूषण',
+        jewelryDesc:
+          'पीतल, चाँदी और प्राकृतिक सामग्री से बने सांस्कृतिक महत्व वाले पारंपरिक आभूषण',
+        price: 'मूल्य',
+        testimonialsTitle1: 'यात्रियों की',
+        testimonialsTitle2: 'कहानियाँ',
+        testiSub:
+          'उन सहयात्रियों से सुनें जिन्होंने हमारे प्लेटफ़ॉर्म के माध्यम से झारखंड का जादू खोजा',
+        anitaRole: 'वन्यजीव फ़ोटोग्राफर',
+        rajRole: 'संस्कृति अन्वेषक',
+        mayaRole: 'आध्यात्मिक साधक',
+        quote1:
+          'बेतला में टाइगर सफारी अद्भुत थी! प्लेटफ़ॉर्म की सिफारिशें बिल्कुल सही रहीं और सुरक्षित बुकिंग प्रक्रिया ने पूरी तरह भरोसा दिया। शानदार शॉट्स मिले!',
+        quote2:
+          'हस्तशिल्प शॉपिंग गाइड कमाल की थी! मुझे कारीगरों से सीधे असली ढोकरा कला मिली। परंपराओं को समझने में सांस्कृतिक जानकारियाँ बहुत उपयोगी रहीं।',
+        quote3:
+          'इस प्लेटफ़ॉर्म से बैद्यनाथ मंदिर जाना बहुत सहज रहा। भीड़ के स्तर के रियल-टाइम अपडेट्स ने परफेक्ट दर्शन समय चुनने में मदद की। सच में दिव्य अनुभव!',
+      }
+    : {
+        heroTag: 'DISCOVER JHARKHAND',
+        heroTitlePart1: 'Plan Your',
+        heroTitlePart2: 'Journey',
+        heroDesc:
+          "Discover Jharkhand's hidden gems through immersive experiences, ancient tribal heritage, and breathtaking natural wonders that tell stories of millennia.",
+        exploreDestinations: 'Explore Destinations',
+        featuredDestinations: 'Featured',
+        destinations: 'Destinations',
+        destsSub:
+          "Explore the most captivating attractions that define Jharkhand's natural and spiritual heritage",
+        wildlifeSanctuary: 'Wildlife Sanctuary',
+        betlaTitle: 'Betla National Park',
+        betlaDesc:
+          "Home to majestic Royal Bengal Tigers and diverse wildlife, this pristine sanctuary offers thrilling safari experiences through dense forests and scenic landscapes, showcasing Jharkhand's incredible biodiversity.",
+        entryFee: 'Entry Fee',
+        timings: 'Timings',
+        bestTime: 'Best Time',
+        bestTimeBetla: 'October - March',
+        location: 'Location',
+        palamu: 'Palamu District',
+        jyotirlinga: 'Sacred Jyotirlinga',
+        baidyanathTitle: 'Baidyanath Temple',
+        baidyanathDesc:
+          'One of the twelve sacred Jyotirlingas, this ancient temple in Deoghar attracts millions of devotees annually. Experience profound spirituality and witness centuries-old architectural magnificence.',
+        freeDarshan: 'Free Darshan',
+        fourToNine: '4AM - 9PM',
+        bestTimeBaidya: 'July - August (Sawan)',
+        deoghar: 'Deoghar',
+        handicrafts: 'Authentic',
+        handicrafts2: 'Handicrafts',
+        handiSub:
+          "Take home pieces of Jharkhand's soul through these traditional artworks crafted by skilled tribal artisans",
+        dokra: 'Dokra Art',
+        dokraDesc:
+          'Ancient bronze casting technique creating stunning figurines with 4000+ years of history',
+        sohrai: 'Sohrai Paintings',
+        sohraiDesc:
+          'Traditional wall art celebrating harvest festivals with natural pigments and geometric patterns',
+        bamboo: 'Bamboo Crafts',
+        bambooDesc:
+          'Eco-friendly baskets and decorative items showcasing sustainable tribal living practices',
+        jewelry: 'Tribal Jewelry',
+        jewelryDesc:
+          'Traditional ornaments with cultural significance crafted from brass, silver and natural materials',
+        price: 'Price',
+        testimonialsTitle1: 'Traveler',
+        testimonialsTitle2: 'Stories',
+        testiSub:
+          'Hear from fellow adventurers who discovered the magic of Jharkhand through our platform',
+        anitaRole: 'Wildlife Photographer',
+        rajRole: 'Cultural Explorer',
+        mayaRole: 'Spiritual Seeker',
+        quote1:
+          "The tiger safari at Betla was absolutely incredible! The platform's recommendations were spot-on, and the secure booking process gave me complete peace of mind. Captured amazing shots!",
+        quote2:
+          'The handicraft shopping guide was amazing! I found authentic Dokra art pieces directly from artisans. The cultural insights were invaluable for understanding the traditions.',
+        quote3:
+          'Visiting Baidyanath Temple through this platform was seamless. The real-time updates about crowd levels helped me plan the perfect darshan time. Truly divine experience!',
+      };
   const [mounted, setMounted] = useState(false);
   const videoRef = useRef(null);
   const destinationsRef = useRef(null);
@@ -230,7 +353,7 @@ export default function LandingPage() {
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4 max-w-6xl mx-auto">
           <div className="mb-8 opacity-0 animate-fade-in-up" style={{ animationDelay: '0.2s', animationFillMode: 'forwards' }}>
             <div className="inline-block px-6 py-3 backdrop-blur-sm rounded-full border border-white/20">
-              <span className="text-emerald-300 font-semibold tracking-wider text-sm">DISCOVER JHARKHAND</span>
+              <span className="text-emerald-300 font-semibold tracking-wider text-sm">{L.heroTag}</span>
             </div>
           </div>
 
@@ -243,10 +366,10 @@ export default function LandingPage() {
             }}
           >
             <span className="bg-gradient-to-r from-emerald-300 via-cyan-300 to-blue-300 bg-clip-text text-transparent">
-              Plan Your
+              {L.heroTitlePart1}
             </span>
             <br />
-            <span className="text-white/90">Journey</span>
+            <span className="text-white/90">{L.heroTitlePart2}</span>
           </h1>
 
           <p
@@ -257,8 +380,7 @@ export default function LandingPage() {
               textShadow: '0 0 20px rgba(0,0,0,0.8)'
             }}
           >
-            Discover Jharkhand's hidden gems through immersive experiences, 
-            ancient tribal heritage, and breathtaking natural wonders that tell stories of millennia.
+            {L.heroDesc}
           </p>
 
           <div className="flex flex-col sm:flex-row gap-6 opacity-0 animate-fade-in-up" style={{ animationDelay: '0.8s', animationFillMode: 'forwards' }}>
@@ -266,7 +388,7 @@ export default function LandingPage() {
               <Button />
             </Link>
             <Link href="/destinations">
-              <Button>Explore Destinations</Button>
+              <Button>{L.exploreDestinations}</Button>
             </Link>
           </div>
         </div>
@@ -289,10 +411,10 @@ export default function LandingPage() {
         <div className="relative z-10 max-w-7xl mx-auto px-4 w-full">
           <div className="text-center mb-20">
             <h2 className="text-4xl md:text-6xl font-bold text-white mb-6">
-              Featured <span className="text-green-300">Destinations</span>
+              {L.featuredDestinations} <span className="text-green-300">{L.destinations}</span>
             </h2>
             <p className="text-xl text-green-200 max-w-4xl mx-auto">
-              Explore the most captivating attractions that define Jharkhand's natural and spiritual heritage
+              {L.destsSub}
             </p>
           </div>
 
@@ -306,28 +428,28 @@ export default function LandingPage() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
                 <div className="absolute top-4 right-4 bg-black/50 backdrop-blur-sm px-4 py-2 rounded-full">
-                  <span className="text-white text-sm font-medium">Wildlife Sanctuary</span>
+                  <span className="text-white text-sm font-medium">{L.wildlifeSanctuary}</span>
                 </div>
                 <div className="absolute bottom-4 left-4 text-8xl text-white drop-shadow-2xl">🐅</div>
               </div>
               <div className="p-8">
-                <h3 className="text-3xl font-bold text-white mb-4">Betla National Park</h3>
+                <h3 className="text-3xl font-bold text-white mb-4">{L.betlaTitle}</h3>
                 <p className="text-green-200 mb-6 leading-relaxed">
-                  Home to majestic Royal Bengal Tigers and diverse wildlife, this pristine sanctuary offers thrilling safari experiences through dense forests and scenic landscapes, showcasing Jharkhand's incredible biodiversity.
+                  {L.betlaDesc}
                 </p>
                 <div className="grid grid-cols-2 gap-4 mb-6">
                   <div className="bg-green-800/30 p-3 rounded-lg">
-                    <span className="text-green-300 text-sm font-medium">Entry Fee</span>
+                    <span className="text-green-300 text-sm font-medium">{L.entryFee}</span>
                     <div className="text-white font-bold">₹50 - ₹200</div>
                   </div>
                   <div className="bg-green-800/30 p-3 rounded-lg">
-                    <span className="text-green-300 text-sm font-medium">Timings</span>
+                    <span className="text-green-300 text-sm font-medium">{L.timings}</span>
                     <div className="text-white font-bold">6AM - 6PM</div>
                   </div>
                 </div>
                 <div className="flex items-center text-green-400 text-sm">
-                  <span>🌟 Best Time: October - March</span>
-                  <span className="ml-auto">📍 Palamu District</span>
+                  <span>🌟 {L.bestTime}: {L.bestTimeBetla}</span>
+                  <span className="ml-auto">📍 {L.palamu}</span>
                 </div>
               </div>
             </div>
@@ -341,28 +463,28 @@ export default function LandingPage() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
                 <div className="absolute top-4 right-4 bg-black/50 backdrop-blur-sm px-4 py-2 rounded-full">
-                  <span className="text-white text-sm font-medium">Sacred Jyotirlinga</span>
+                  <span className="text-white text-sm font-medium">{L.jyotirlinga}</span>
                 </div>
                 <div className="absolute bottom-4 left-4 text-8xl text-white drop-shadow-2xl">🕉️</div>
               </div>
               <div className="p-8">
-                <h3 className="text-3xl font-bold text-white mb-4">Baidyanath Temple</h3>
+                <h3 className="text-3xl font-bold text-white mb-4">{L.baidyanathTitle}</h3>
                 <p className="text-green-200 mb-6 leading-relaxed">
-                  One of the twelve sacred Jyotirlingas, this ancient temple in Deoghar attracts millions of devotees annually. Experience profound spirituality and witness centuries-old architectural magnificence.
+                  {L.baidyanathDesc}
                 </p>
                 <div className="grid grid-cols-2 gap-4 mb-6">
                   <div className="bg-green-800/30 p-3 rounded-lg">
-                    <span className="text-green-300 text-sm font-medium">Entry Fee</span>
-                    <div className="text-white font-bold">Free Darshan</div>
+                    <span className="text-green-300 text-sm font-medium">{L.entryFee}</span>
+                    <div className="text-white font-bold">{L.freeDarshan}</div>
                   </div>
                   <div className="bg-green-800/30 p-3 rounded-lg">
-                    <span className="text-green-300 text-sm font-medium">Timings</span>
-                    <div className="text-white font-bold">4AM - 9PM</div>
+                    <span className="text-green-300 text-sm font-medium">{L.timings}</span>
+                    <div className="text-white font-bold">{L.fourToNine}</div>
                   </div>
                 </div>
                 <div className="flex items-center text-green-400 text-sm">
-                  <span>🌟 Best Time: July - August (Sawan)</span>
-                  <span className="ml-auto">📍 Deoghar</span>
+                  <span>🌟 {L.bestTime}: {L.bestTimeBaidya}</span>
+                  <span className="ml-auto">📍 {L.deoghar}</span>
                 </div>
               </div>
             </div>
@@ -376,10 +498,10 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-4 w-full">
           <div className="text-center mb-20">
             <h2 className="text-4xl md:text-6xl font-bold text-white mb-6">
-              Authentic <span className="text-purple-300">Handicrafts</span>
+              {L.handicrafts} <span className="text-purple-300">{L.handicrafts2}</span>
             </h2>
             <p className="text-xl text-purple-200 max-w-4xl mx-auto">
-              Take home pieces of Jharkhand's soul through these traditional artworks crafted by skilled tribal artisans
+              {L.handiSub}
             </p>
           </div>
 
@@ -394,8 +516,8 @@ export default function LandingPage() {
                 <div className="relative text-6xl text-white drop-shadow-2xl"></div>
               </div>
               <div className="p-6">
-                <h3 className="text-xl font-bold text-white mb-3">Dokra Art</h3>
-                <p className="text-purple-200 text-sm mb-4">Ancient bronze casting technique creating stunning figurines with 4000+ years of history</p>
+                <h3 className="text-xl font-bold text-white mb-3">{L.dokra}</h3>
+                <p className="text-purple-200 text-sm mb-4">{L.dokraDesc}</p>
                 <div className="text-amber-400 text-sm font-semibold">₹500 - ₹5,000</div>
               </div>
             </div>
@@ -410,8 +532,8 @@ export default function LandingPage() {
                 <div className="relative text-6xl text-white drop-shadow-2xl"></div>
               </div>
               <div className="p-6">
-                <h3 className="text-xl font-bold text-white mb-3">Sohrai Paintings</h3>
-                <p className="text-purple-200 text-sm mb-4">Traditional wall art celebrating harvest festivals with natural pigments and geometric patterns</p>
+                <h3 className="text-xl font-bold text-white mb-3">{L.sohrai}</h3>
+                <p className="text-purple-200 text-sm mb-4">{L.sohraiDesc}</p>
                 <div className="text-red-400 text-sm font-semibold">₹300 - ₹2,500</div>
               </div>
             </div>
@@ -426,15 +548,15 @@ export default function LandingPage() {
                 <div className="relative text-6xl text-white drop-shadow-2xl"></div>
               </div>
               <div className="p-6">
-                <h3 className="text-xl font-bold text-white mb-3">Bamboo Crafts</h3>
-                <p className="text-purple-200 text-sm mb-4">Eco-friendly baskets and decorative items showcasing sustainable tribal living practices</p>
+                <h3 className="text-xl font-bold text-white mb-3">{L.bamboo}</h3>
+                <p className="text-purple-200 text-sm mb-4">{L.bambooDesc}</p>
                 <div className="text-green-400 text-sm font-semibold">₹150 - ₹3,000</div>
               </div>
             </div>
 
             <div className="handicraft-item bg-gradient-to-br from-white/20 via-white/10 to-transparent backdrop-blur-xl rounded-2xl overflow-hidden border border-purple-400/30 shadow-xl">
               <div className="relative h-48 bg-gradient-to-br from-purple-600 to-indigo-700 flex items-center justify-center">
-                <img 
+                <img
                   src="https://tse3.mm.bing.net/th/id/OIP.hfbgZS56ffgxV4iVyc4GNgHaD8?pid=Api&P=0&h=180" 
                   alt="Tribal Jewelry" 
                   className="absolute inset-0 w-full h-full object-cover opacity-70"
@@ -442,8 +564,8 @@ export default function LandingPage() {
                 <div className="relative text-6xl text-white drop-shadow-2xl"></div>
               </div>
               <div className="p-6">
-                <h3 className="text-xl font-bold text-white mb-3">Tribal Jewelry</h3>
-                <p className="text-purple-200 text-sm mb-4">Traditional ornaments with cultural significance crafted from brass, silver and natural materials</p>
+                <h3 className="text-xl font-bold text-white mb-3">{L.jewelry}</h3>
+                <p className="text-purple-200 text-sm mb-4">{L.jewelryDesc}</p>
                 <div className="text-purple-400 text-sm font-semibold">₹200 - ₹8,000</div>
               </div>
             </div>
@@ -456,10 +578,10 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-4 w-full">
           <div className="text-center mb-20">
             <h2 className="text-4xl md:text-6xl font-bold text-white mb-6">
-              Traveler <span className="text-yellow-400">Stories</span>
+              {L.testimonialsTitle1} <span className="text-yellow-400">{L.testimonialsTitle2}</span>
             </h2>
             <p className="text-xl text-gray-300 max-w-4xl mx-auto">
-              Hear from fellow adventurers who discovered the magic of Jharkhand through our platform
+              {L.testiSub}
             </p>
           </div>
 
@@ -481,13 +603,11 @@ export default function LandingPage() {
                   <div className="flex items-center mb-4">
                     <div>
                       <h4 className="text-white font-bold text-lg">Anita Sharma</h4>
-                      <p className="text-gray-400 text-sm">Wildlife Photographer</p>
+                      <p className="text-gray-400 text-sm">{L.anitaRole}</p>
                     </div>
                     <div className="ml-auto flex text-yellow-400 text-lg">★★★★★</div>
                   </div>
-                  <p className="text-gray-300 leading-relaxed">
-                    "The tiger safari at Betla was absolutely incredible! The platform's recommendations were spot-on, and the secure booking process gave me complete peace of mind. Captured amazing shots!"
-                  </p>
+                  <p className="text-gray-300 leading-relaxed">“{L.quote1}”</p>
                 </div>
               </div>
             </div>
@@ -509,13 +629,11 @@ export default function LandingPage() {
                   <div className="flex items-center mb-4">
                     <div>
                       <h4 className="text-white font-bold text-lg">Raj Patel</h4>
-                      <p className="text-gray-400 text-sm">Cultural Explorer</p>
+                      <p className="text-gray-400 text-sm">{L.rajRole}</p>
                     </div>
                     <div className="ml-auto flex text-yellow-400 text-lg">★★★★★</div>
                   </div>
-                  <p className="text-gray-300 leading-relaxed">
-                    "The handicraft shopping guide was amazing! I found authentic Dokra art pieces directly from artisans. The cultural insights were invaluable for understanding the traditions."
-                  </p>
+                  <p className="text-gray-300 leading-relaxed">“{L.quote2}”</p>
                 </div>
               </div>
             </div>
@@ -537,13 +655,11 @@ export default function LandingPage() {
                   <div className="flex items-center mb-4">
                     <div>
                       <h4 className="text-white font-bold text-lg">Maya Singh</h4>
-                      <p className="text-gray-400 text-sm">Spiritual Seeker</p>
+                      <p className="text-gray-400 text-sm">{L.mayaRole}</p>
                     </div>
                     <div className="ml-auto flex text-yellow-400 text-lg">★★★★★</div>
                   </div>
-                  <p className="text-gray-300 leading-relaxed">
-                    "Visiting Baidyanath Temple through this platform was seamless. The real-time updates about crowd levels helped me plan the perfect darshan time. Truly divine experience!"
-                  </p>
+                  <p className="text-gray-300 leading-relaxed">“{L.quote3}”</p>
                 </div>
               </div>
             </div>

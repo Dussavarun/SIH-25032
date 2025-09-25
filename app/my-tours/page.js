@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
+import Link from "next/link";
 import { MapPin, Clock, Navigation, Route, Car, Calendar, Hotel, Map } from "lucide-react";
 import "leaflet/dist/leaflet.css";
 
@@ -351,10 +352,10 @@ export default function JharkhandTourMap() {
               <div className="font-bold text-blue-300 text-lg">{currentDayData.locations?.length || 0}</div>
               <div className="text-xs text-blue-200">Locations</div>
             </div>
-            <div className="bg-red-900 p-3 rounded-lg text-center border border-red-700">
+            <Link href="/hotels" className="bg-red-900 p-3 rounded-lg text-center border border-red-700 hover:bg-red-800 transition-colors cursor-pointer">
               <div className="font-bold text-red-300 text-lg">{currentDayData.hotels?.length || 0}</div>
               <div className="text-xs text-red-200">Hotels</div>
-            </div>
+            </Link>
             <div className="bg-green-900 p-3 rounded-lg text-center border border-green-700">
               <div className="font-bold text-green-300 text-lg">{tourData.metadata?.totalDays || availableDays.length}</div>
               <div className="text-xs text-green-200">Total Days</div>

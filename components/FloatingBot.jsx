@@ -5,8 +5,7 @@ import { useRouter } from 'next/navigation';
 import Tooltip from '@/components/chatbnn';
 
 const FloatingChatbot = () => {
-  // Configure your bot API base here. You can also set NEXT_PUBLIC_BOT_BASE_URL env var.
-  const BOT_API_BASE = process.env.NEXT_PUBLIC_BOT_BASE_URL || 'https://cruel-hoops-give.loca.lt';
+  // Static bot: no external API calls. All answers are generated locally.
   const router = useRouter();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -129,75 +128,148 @@ const FloatingChatbot = () => {
     setInputMessage('');
     setIsTyping(true);
 
-    // Call internal Next.js proxy first to avoid CORS/tunnel prompts
-    try {
-      let res = await fetch(`/api/ask`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ question: userMessage.text })
-      });
-
-      // Fallback safe parse
-      let data;
-      try { data = await res.json(); } catch { data = null; }
-
-      // If proxy fails, try external base URL
-      if (!res.ok || !data) {
-        res = await fetch(`${BOT_API_BASE}/ask`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Bypass-Tunnel-Reminder': '1',
-          },
-          body: JSON.stringify({ question: userMessage.text })
-        });
-        try { data = await res.json(); } catch { data = null; }
-      }
-
-      const text = res.ok && data && (data.answer || data.response || data.text)
-        ? (data.answer || data.response || data.text)
-        : (!res.ok ? `Error ${res.status}: ${(await (async()=>{try{return await res.text()}catch{return 'Failed to fetch answer'}})())}` : 'No answer received.');
-
+    // Static bot: simulate 2s typing delay and reply from local knowledge
+    const replyText = getBotResponse(userMessage.text);
+    setTimeout(() => {
       const botResponse = {
         id: Date.now() + 1,
-        text,
+        text: replyText,
         isBot: true,
         timestamp: new Date()
       };
       setMessages(prev => [...prev, botResponse]);
-    } catch (err) {
-      const botResponse = {
-        id: Date.now() + 1,
-        text: 'Oops! Unable to reach the chatbot service right now. Please try again in a moment.',
-        isBot: true,
-        timestamp: new Date()
-      };
-      setMessages(prev => [...prev, botResponse]);
-      // Optional: console for debugging
-      console.error('Chatbot request failed:', err);
-    } finally {
       setIsTyping(false);
-    }
+    }, 2000);
   };
 
   const getBotResponse = (userInput) => {
     const input = userInput.toLowerCase();
-    
-    if (input.includes('food') || input.includes('eat')) {
-      return "Jharkhand offers amazing tribal cuisine! Try Dhuska, Rugra, and Bamboo Shoot curry. Would you like restaurant recommendations near specific locations?";
-    } else if (input.includes('place') || input.includes('visit') || input.includes('destination')) {
-      return "Popular destinations in Jharkhand include Betla National Park, Hundru Falls, Netarhat, and Baidyanath Temple in Deoghar. Which type of attractions interest you most?";
-    } else if (input.includes('handicraft') || input.includes('shopping')) {
-      return "Jharkhand is famous for Dokra art, Sohrai paintings, bamboo crafts, and tribal jewelry. All are available offline only. Would you like specific shopping locations?";
-    } else if (input.includes('hotel') || input.includes('stay')) {
-      return "I can help you find accommodations! Which city or area are you planning to visit? Budget range would also help me suggest better options.";
-    } else if (input.includes('weather') || input.includes('time')) {
-      return "Best time to visit Jharkhand is October to March for pleasant weather. Monsoon (June-September) is great for waterfalls. When are you planning to visit?";
-    } else {
-      return "I'm here to help with your Jharkhand travel plans! Ask me about destinations, food, accommodations, handicrafts, or anything else about Jharkhand tourism.";
+
+    // Waterfalls
+    const waterfallKeywords = ['waterfall', 'waterfalls', 'falls', 'hundru', 'jonha', 'dassam', 'hirni'];
+    // Temples
+    const templeKeywords = ['temple', 'mandir', 'baidyanath', 'deoghar', 'baba', 'jyotirlinga'];
+    // Food
+    const foodKeywords = ['food', 'eat', 'restaurant', 'cuisine', 'dinner', 'lunch', 'breakfast'];
+    // Handicrafts
+    const craftKeywords = ['handicraft', 'craft', 'dokra', 'dokhra', 'sohrai', 'bamboo', 'jewelry', 'jewellery', 'market', 'shopping'];
+    // Nearby / locations
+    const nearbyKeywords = ['near', 'around', 'close', 'nearby', 'locations'];
+
+    const containsAny = (words) => words.some(w => input.includes(w));
+
+    if (containsAny(waterfallKeywords)) {
+      const base = [
+        'Top Waterfalls in Jharkhand:',
+        '- Hundru Falls (Ranchi): 98m drop on Subarnarekha River; best in monsoon and post-monsoon.',
+        '- Jonha Falls (Ranchi): Also called Gautamdhara; scenic valley views with steps down to the base.',
+        '- Dassam Falls (Near Taimara): Powerful cascade on Kanchi River; strong currents—view from designated points.',
+        '- Hirni Falls (West Singhbhum): Lush forest surroundings and a viewpoint for wide vistas.'
+      ].join('\n');
+
+      if (containsAny(foodKeywords) || input.includes('best food')) {
+        return [
+          base,
+          '',
+          'Best local foods around waterfalls:',
+          '- Dhuska with Aloo Ghugni (popular around Ranchi).',
+          '- Rugra mushroom curry (seasonal monsoon delicacy).',
+          '- Bamboo shoot pickles and curries (tribal cuisine).',
+          '- Pitha and Thekua at local stalls during festivals.'
+        ].join('\n');
+      }
+
+      if (containsAny(nearbyKeywords) || input.includes('best locations')) {
+        return [
+          base,
+          '',
+          'Best locations/nearby points:',
+          '- Hundru: Getalsud Dam, Ranchi city viewpoints (Tagore Hill, Pahari Mandir).',
+          '- Jonha: Sita Falls (short drive), Angrabadi temple complex.',
+          '- Dassam: Land of waterfalls drive loop (Jonha–Hundru–Dassam).',
+          '- Hirni: Saranda forest drives (with local guidance).'
+        ].join('\n');
+      }
+
+      return base;
     }
+
+    if (containsAny(templeKeywords)) {
+      const base = [
+        'Major Temples in Jharkhand:',
+        '- Baidyanath Temple (Deoghar): One of the 12 Jyotirlingas; peak pilgrimage in Sawan (July–Aug).',
+        '- Pahari Mandir (Ranchi): Panoramic city views; best at sunrise/sunset.',
+        '- Maluti Temple Cluster (near Dumka): Terracotta temples with intricate carvings.'
+      ].join('\n');
+
+      if (containsAny(foodKeywords)) {
+        return [
+          base,
+          '',
+          'Best foods around temple towns:',
+          '- Near Baidyanath (Deoghar): Khichdi prasad, Pedas, Dhuska, local thalis.',
+          '- Ranchi: Dhuska-Ghugni, Rugra (seasonal), Handia-based dishes (ask locals), litti-type street snacks.'
+        ].join('\n');
+      }
+
+      if (containsAny(nearbyKeywords) || input.includes('best locations')) {
+        return [
+          base,
+          '',
+          'Nearby locations to add:',
+          '- Deoghar: Naulakha Mandir, Trikut Hills, Tapovan Caves.',
+          '- Ranchi: Rock Garden, Kanke Dam, Tagore Hill; short trips to waterfalls (Hundru/Jonha/Dassam).'
+        ].join('\n');
+      }
+
+      return base;
+    }
+
+    if (containsAny(craftKeywords)) {
+      return [
+        'Jharkhand Handicrafts:',
+        '- Dokra (Dhokra) metal casting: brass figurines and decor.',
+        '- Sohrai and Khovar paintings: traditional wall and mural art with natural pigments.',
+        '- Bamboo and cane crafts: baskets, mats, decor.',
+        '- Tribal jewelry: brass/silver pieces with cultural motifs.',
+        '',
+        'Tip: Look for government emporiums, artisan haats, and local fairs for authentic items.'
+      ].join('\n');
+    }
+
+    if (containsAny(foodKeywords)) {
+      return [
+        'Signature foods of Jharkhand:',
+        '- Dhuska & Aloo Ghugni',
+        '- Rugra (wild mushroom) delicacies',
+        '- Bamboo shoot curries/pickles',
+        '- Pitha (sweet/savory)',
+        '- Chilka Roti, Thekua',
+        '',
+        'Tell me the spot (e.g., Hundru, Deoghar) and I will suggest nearby options.'
+      ].join('\n');
+    }
+
+    if (input.includes('place') || input.includes('visit') || input.includes('destination') || input.includes('locations')) {
+      return [
+        'Popular places to visit in Jharkhand:',
+        '- Nature: Betla National Park, Netarhat, Patratu Valley.',
+        '- Waterfalls: Hundru, Jonha, Dassam, Hirni.',
+        '- Spiritual: Baidyanath Temple (Deoghar), Pahari Mandir, Parasnath Hills (Jain pilgrimage).',
+        '',
+        'Ask for any category and I will tailor the list.'
+      ].join('\n');
+    }
+
+    if (input.includes('weather') || input.includes('time') || input.includes('season') || input.includes('best time')) {
+      return 'Best time: Oct–Mar for pleasant weather; Jun–Sep (monsoon) is spectacular for waterfalls.';
+    }
+
+    if (input.includes('hotel') || input.includes('stay')) {
+      return 'Share your target city/area and budget, and I will suggest stay pockets near attractions (e.g., Ranchi for waterfalls loop; Deoghar for Baidyanath).';
+    }
+
+    return "I'm your Jharkhand guide. Ask me about waterfalls, temples, nearby foods, best locations, or handicrafts!";
   };
 
   const handleMyTour = () => {
