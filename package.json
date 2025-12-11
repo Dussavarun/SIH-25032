@@ -9,6 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@browserbasehq/stagehand": "^1.14.0",
     "@langchain/community": "^0.3.56",
     "@langchain/core": "^0.3.76",
     "@langchain/google-genai": "^0.2.18",
