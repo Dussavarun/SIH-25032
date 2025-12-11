@@ -18,7 +18,7 @@
     "axios": "^1.12.2",
     "bcryptjs": "^3.0.2",
     "cookie-parser": "^1.4.7",
-    "dotenv": "^17.2.2",
+    "dotenv": "^16.6.1",
     "framer-motion": "^12.23.15",
     "gsap": "^3.13.0",
     "jsonwebtoken": "^9.0.2",
